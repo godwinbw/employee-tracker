@@ -1,7 +1,7 @@
 {
   "name": "employee-tracker",
   "version": "1.0.0",
-  "description": "",
+  "description": "## **Employee Tracker**",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/godwinbw/employee-tracker/issues"
   },
-  "homepage": "https://github.com/godwinbw/employee-tracker#readme"
+  "homepage": "https://github.com/godwinbw/employee-tracker#readme",
+  "dependencies": {
+    "inquirer": "^8.1.0",
+    "mysql2": "^2.2.5"
+  }
 }
