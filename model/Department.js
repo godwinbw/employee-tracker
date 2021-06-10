@@ -93,11 +93,14 @@ class Department {
       .query(sql, [departmentName])
       .then(([rows, fields]) => {
         console.log(" ");
-        console.table(rows);
+        console.log("Added department " + departmentName);
         console.log(" ");
         return rows;
       })
       .catch((err) => {
+        console.log(" ");
+        console.log("Error trying to add department " + departmentName);
+        console.log(" ");
         console.table(err);
         console.log(" ");
         return err;

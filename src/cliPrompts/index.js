@@ -1,6 +1,8 @@
 const promptBudgetByDepartment = require("./budgetByDepartment");
 const promptEmployeesByDepartment = require("./employeesByDepartment");
 const promptEmployeesByManager = require("./employeesByManager");
+const promptDeleteDepartment = require("./deleteDepartment");
+const promptAddDepartment = require("./addDepartment");
 
 const inquirer = require("inquirer");
 const Department = require("../../model/Department");
@@ -56,9 +58,9 @@ const promptOverall = function () {
     ) {
       return promptBudgetByDepartment();
     } else if (answer.selection === "7. Add a department") {
-      //
+      return promptAddDepartment();
     } else if (answer.selection === "8. Delete a department") {
-      //
+      return promptDeleteDepartment();
     } else if (answer.selection === "9. Add a role") {
       //
     } else if (answer.selection === "10. Delete a role") {
