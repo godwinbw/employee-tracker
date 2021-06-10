@@ -26,11 +26,11 @@ const managerQuestions = [
   },
 ];
 
-const promptManager = function () {
+const promptEmployeesByManager = function () {
   // get all managers
   //console.log("ok, going to prompt for managers");
   return employee
-    .getAllManagers()
+    .getAllManagersForChoices()
     .then((managers) => {
       // populate the managerQuestions with the manager list from the database
       managerQuestions[0].choices = managers;
@@ -43,6 +43,46 @@ const promptManager = function () {
           // get all employers for this manager
           //console.log(answer);
           return employee.getAllByManagerId(answer.selection).finally(() => {
+            return true;
+          });
+        })
+        .finally(() => {
+          return true;
+        });
+    })
+    .catch((err) => {
+      //console.log(err);
+      //console.log("...had an error getting all manangers");
+      return true;
+    });
+};
+
+/// select department
+const departmentQuestions = [
+  {
+    type: "list",
+    message: "Which department do you want to view employees for?",
+    name: "selection",
+  },
+];
+
+const promptEmployeesByDepartment = function () {
+  // get all departments
+  console.log("ok, going to prompt for managers");
+  return department
+    .getAllForChoices()
+    .then((departments) => {
+      // populate the departmentQuetions with the department list from the database
+      departmentQuestions[0].choices = departments;
+      console.log("got departments");
+      console.log(departments);
+      // now ask the user to chooose which department they want
+      return inquirer
+        .prompt(departmentQuestions)
+        .then((answer) => {
+          // get all employers for this department
+          console.log(answer);
+          return employee.getAllByDepartmentId(answer.selection).finally(() => {
             return true;
           });
         })
@@ -94,9 +134,13 @@ const promptOverall = function () {
     } else if (answer.selection === "3. View all employees") {
       return await employee.getAll();
     } else if (answer.selection === "4. View all employees by manager") {
-      console.log("going to view all employees by manager");
-      return promptManager();
+      return promptEmployeesByManager();
     } else if (answer.selection === "5. View all employees by department") {
+      return promptEmployeesByDepartment();
+    } else if (
+      answer.selection === "6. View total utilized budget of a department"
+    ) {
+      console.log("need to do this");
     } else if (answer.selection === "15. Exit") {
       return false;
     }

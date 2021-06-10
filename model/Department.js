@@ -25,6 +25,26 @@ class Department {
       });
   }
 
+  getAllForChoices() {
+    // return a list of all departments - response is formatted to be used
+    // as an enquirer choices list
+
+    const sql = `SELECT JSON_ARRAYAGG(JSON_OBJECT('name', name, 'value', value)) as department_list FROM
+                  (SELECT id as value, name as name FROM department d
+                  WHERE d.name IS NOT NULL) as abc`;
+
+    return this.db
+      .promise()
+      .query(sql)
+      .then(([rows, fields]) => {
+        return rows[0]["department_list"];
+      })
+      .catch((err) => {
+        // if an error, return empty array
+        return [];
+      });
+  }
+
   getBudgetForId(departmentId) {
     const sql = `SELECT d.name as department_name, COUNT(r.salary) as employee_count, SUM(r.salary) AS total_salary
                 FROM employee e

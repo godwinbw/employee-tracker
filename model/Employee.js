@@ -34,8 +34,10 @@ class Employee {
       });
   }
 
-  getAllManagers() {
-    // return a list of all employees that are managers
+  getAllManagersForChoices() {
+    // return a list of all employees that are managers - response is formatted to be used
+    // as an enquirer choices list
+
     const sql = `SELECT JSON_ARRAYAGG(JSON_OBJECT('name', name, 'value', value)) as manager_list FROM
                   (SELECT e.id as value,
                   CONCAT_WS('',e.first_name, ' ', e.last_name, ' - (', r.title, ')') AS name FROM employee e
@@ -71,6 +73,7 @@ class Employee {
       .promise()
       .query(sql, [managerId])
       .then(([rows, fields]) => {
+        console.log(" ");
         console.table(rows);
         console.log(" ");
         return rows;
@@ -98,6 +101,7 @@ class Employee {
       .promise()
       .query(sql, [departmentId])
       .then(([rows, fields]) => {
+        console.log(" ");
         console.table(rows);
         console.log(" ");
         return rows;
@@ -125,6 +129,7 @@ class Employee {
       .promise()
       .query(sql, [employeeId])
       .then(([rows, fields]) => {
+        console.log(" ");
         console.table(rows);
         console.log(" ");
         return rows;
@@ -149,6 +154,7 @@ class Employee {
         // after we do the update, just return info for this one employee
         return this.getById(employeeId)
           .then(([rows, fields]) => {
+            console.log(" ");
             console.table(rows);
             console.log(" ");
             return rows;
@@ -179,6 +185,7 @@ class Employee {
         // after we do the update, just return info for this one employee
         return this.getById(employeeId)
           .then(([rows, fields]) => {
+            console.log(" ");
             console.table(rows);
             console.log(" ");
             return rows;
@@ -204,6 +211,7 @@ class Employee {
       .promise()
       .query(sql, [employeeId])
       .then(([rows, fields]) => {
+        console.log(" ");
         console.table(rows);
         console.log(" ");
         return rows;
@@ -222,6 +230,7 @@ class Employee {
       .promise()
       .query(sql, [firstName, lastName, roleId, managerId])
       .then(([rows, fields]) => {
+        console.log(" ");
         console.table(rows);
         console.log(" ");
         return rows;

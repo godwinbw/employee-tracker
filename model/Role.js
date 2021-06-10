@@ -22,7 +22,6 @@ class Role {
         //let json_rows = JSON.stringify(
         //  rows[0]["JSON_ARRAYAGG(JSON_OBJECT('id', id, 'name', name))"]
         //);
-        console.log(" *** All Roles *** ");
         console.log(" ");
         console.table(rows);
         console.log(" ");
