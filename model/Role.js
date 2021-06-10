@@ -34,6 +34,26 @@ class Role {
       });
   }
 
+  getAllForChoices() {
+    // return a list of all roles - response is formatted to be used
+    // as an enquirer choices list
+
+    const sql = `SELECT JSON_ARRAYAGG(JSON_OBJECT('name', name, 'value', value)) as role_list FROM
+                  (SELECT id as value, title as name FROM role r
+                  WHERE r.title IS NOT NULL) as abc`;
+
+    return this.db
+      .promise()
+      .query(sql)
+      .then(([rows, fields]) => {
+        return rows[0]["role_list"];
+      })
+      .catch((err) => {
+        // if an error, return empty array
+        return [];
+      });
+  }
+
   deleteById(roleId) {
     const sql = `DELETE FROM role r
                     WHERE r.id = ?`;
@@ -42,12 +62,14 @@ class Role {
       .promise()
       .query(sql, [roleId])
       .then(([rows, fields]) => {
-        console.table(rows);
+        console.log(" ");
+        console.log("Deleted role id " + roleId);
         console.log(" ");
         return rows;
       })
       .catch((err) => {
-        console.table(err);
+        console.log(" ");
+        console.log("Error trying to delete role id" + roleId);
         console.log(" ");
         return err;
       });
@@ -60,11 +82,15 @@ class Role {
       .promise()
       .query(sql, [title, salary, departmentId])
       .then(([rows, fields]) => {
-        console.table(rows);
+        console.log(" ");
+        console.log("Added role " + title);
         console.log(" ");
         return rows;
       })
       .catch((err) => {
+        console.log(" ");
+        console.log("Error trying to add role " + title);
+        console.log(" ");
         console.table(err);
         console.log(" ");
         return err;

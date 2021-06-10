@@ -81,6 +81,9 @@ class Department {
         return rows;
       })
       .catch((err) => {
+        console.log(" ");
+        console.log("Error trying to delete department id" + deparmentId);
+        console.log(" ");
         return err;
       });
   }
