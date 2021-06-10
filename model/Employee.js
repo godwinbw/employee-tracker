@@ -55,6 +55,28 @@ class Employee {
       });
   }
 
+  getAllEmployeesExceptOneForChoices(id) {
+    // return a list of all employees EXCEPT for the specified one - response is formatted to be used
+    // as an enquirer choices list
+
+    const sql = `SELECT JSON_ARRAYAGG(JSON_OBJECT('name', name, 'value', value)) as employee_list FROM
+                  (SELECT e.id as value,
+                  CONCAT_WS('',e.first_name, ' ', e.last_name, ' - (', r.title, ')') AS name FROM employee e
+                  LEFT JOIN role r ON e.role_id = r.id) as emp_role
+                  WHERE emp_role.value != ?)`;
+
+    return this.db
+      .promise()
+      .query(sql, [id])
+      .then(([rows, fields]) => {
+        return rows[0]["employee_list"];
+      })
+      .catch((err) => {
+        // if an error, return empty array
+        return [];
+      });
+  }
+
   getAllManagersForChoices() {
     // return a list of all employees that are managers - response is formatted to be used
     // as an enquirer choices list

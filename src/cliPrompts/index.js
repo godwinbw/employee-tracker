@@ -7,6 +7,8 @@ const promptAddRole = require("./addRole");
 const promptDeleteRole = require("./deleteRole");
 const promptAddEmployee = require("./addEmployee");
 const promptDeleteEmployee = require("./deleteEmployee");
+const promptUpdateEmployeeRole = require("./updateEmployeeRole");
+const promptUpdateEmployeeManager = require("./updateEmployeeManager");
 
 const inquirer = require("inquirer");
 const Department = require("../../model/Department");
@@ -74,9 +76,9 @@ const promptOverall = function () {
     } else if (answer.selection === "12. Delete an employee") {
       return promptDeleteEmployee();
     } else if (answer.selection === "13. Update an employee role") {
-      //
+      return promptUpdateEmployeeRole();
     } else if (answer.selection === "14. Update an employee's manager") {
-      //
+      return promptUpdateEmployeeManager();
     } else if (answer.selection === "15. Exit") {
       return false;
     }
