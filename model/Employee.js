@@ -34,6 +34,27 @@ class Employee {
       });
   }
 
+  getAllEmployeesForChoices() {
+    // return a list of all employees - response is formatted to be used
+    // as an enquirer choices list
+
+    const sql = `SELECT JSON_ARRAYAGG(JSON_OBJECT('name', name, 'value', value)) as employee_list FROM
+                  (SELECT e.id as value,
+                  CONCAT_WS('',e.first_name, ' ', e.last_name, ' - (', r.title, ')') AS name FROM employee e
+                  LEFT JOIN role r ON e.role_id = r.id) as emp_role`;
+
+    return this.db
+      .promise()
+      .query(sql)
+      .then(([rows, fields]) => {
+        return rows[0]["employee_list"];
+      })
+      .catch((err) => {
+        // if an error, return empty array
+        return [];
+      });
+  }
+
   getAllManagersForChoices() {
     // return a list of all employees that are managers - response is formatted to be used
     // as an enquirer choices list
@@ -155,17 +176,40 @@ class Employee {
         return this.getById(employeeId)
           .then(([rows, fields]) => {
             console.log(" ");
+            console.log(
+              " Updated employee id " +
+                employeeId +
+                " with new manager id " +
+                newManagerId
+            );
+            console.log(" ");
             console.table(rows);
             console.log(" ");
             return rows;
           })
           .catch((err) => {
+            console.log(" ");
+            console.log(
+              " Error trying to update employee id " +
+                employeeId +
+                " with new manager id " +
+                newManagerId
+            );
+            console.log(" ");
             console.table(err);
             console.log(" ");
             return err;
           });
       })
       .catch((err) => {
+        console.log(" ");
+        console.log(
+          " Error trying to update employee id " +
+            employeeId +
+            " with new manager id " +
+            newManagerId
+        );
+        console.log(" ");
         console.table(err);
         console.log(" ");
         return err;
@@ -186,17 +230,40 @@ class Employee {
         return this.getById(employeeId)
           .then(([rows, fields]) => {
             console.log(" ");
+            console.log(
+              " Updated employee id " +
+                employeeId +
+                " with new role id " +
+                newRoleId
+            );
+            console.log(" ");
             console.table(rows);
             console.log(" ");
             return rows;
           })
           .catch((err) => {
+            console.log(" ");
+            console.log(
+              " Error trying to update employee id " +
+                employeeId +
+                " with new role id " +
+                newRoleId
+            );
+            console.log(" ");
             console.table(err);
             console.log(" ");
             return err;
           });
       })
       .catch((err) => {
+        console.log(" ");
+        console.log(
+          " Error trying to update employee id " +
+            employeeId +
+            " with new role id " +
+            newRoleId
+        );
+        console.log(" ");
         console.table(err);
         console.log(" ");
         return err;
@@ -212,11 +279,14 @@ class Employee {
       .query(sql, [employeeId])
       .then(([rows, fields]) => {
         console.log(" ");
-        console.table(rows);
+        console.log("Deleted employee id " + employeeId);
         console.log(" ");
         return rows;
       })
       .catch((err) => {
+        console.log(" ");
+        console.log("Error trying to delete employee id" + employeeId);
+        console.log(" ");
         console.table(err);
         console.log(" ");
         return err;
@@ -231,11 +301,16 @@ class Employee {
       .query(sql, [firstName, lastName, roleId, managerId])
       .then(([rows, fields]) => {
         console.log(" ");
-        console.table(rows);
+        console.log("Added employee " + firstName + " " + lastName);
         console.log(" ");
         return rows;
       })
       .catch((err) => {
+        console.log(" ");
+        console.log(
+          "Error trying to add employee " + firstName + " " + lastName
+        );
+        console.log(" ");
         console.table(err);
         console.log(" ");
         return err;
