@@ -47,16 +47,32 @@
         WHEN I choose to update an employee role
         THEN I am prompted to select an employee to update and their new role and this information is updated in the database
 
-### **Installation Notes**
+### **Development Notes**
+
+This project implements all BONUS functionality
+
+- Update employee managers.
+
+- View employees by manager.
+
+- View employees by department.
+
+- Delete departments, roles, and employees.
+
+- View the total utilized budget (combined salaries of all employees) of a department.
 
 ### **Challenge 12 - code repository**
 
 <https://github.com/godwinbw/employee-tracker>
 
-### **Challenge 12 - screenshot**
+### **Challenge 12 - screenshots**
 
-<img src="./screenshot.png" style="width: 50%; height=auto;">
+<img src="./screenshot_1.png" style="width: 50%; height=auto;">
+
+<img src="./screenshot_2.png" style="width: 50%; height=auto;">
+
+<img src="./screenshot_3.png" style="width: 50%; height=auto;">
 
 ### \*\*Challenge 12 - link to walkthrough video
 
-<add link here>
+<https://streamable.com/0lnrdx>
