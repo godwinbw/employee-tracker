@@ -1,4 +1,5 @@
 const db = require("../db/connection");
+const cTable = require("console.table");
 
 // create a role class
 class Role {
@@ -10,9 +11,9 @@ class Role {
     //const sql = "SELECT * FROM department";
     //const sql =
     //  "SELECT JSON_ARRAYAGG(JSON_OBJECT('id', id, 'name', name)) FROM department";
-    const sql = `SELECT role.title, role.id, department.name AS department, role.salary FROM role
-                 LEFT JOIN department
-                 ON role.department_id = department.id`;
+    const sql = `SELECT r.id, r.title, d.name AS department, r.salary FROM role r
+                 LEFT JOIN department d
+                 ON r.department_id = d.id`;
 
     return this.db
       .promise()
@@ -21,9 +22,15 @@ class Role {
         //let json_rows = JSON.stringify(
         //  rows[0]["JSON_ARRAYAGG(JSON_OBJECT('id', id, 'name', name))"]
         //);
+        console.log(" *** All Roles *** ");
+        console.log(" ");
+        console.table(rows);
+        console.log(" ");
         return rows;
       })
       .catch((err) => {
+        console.table(err);
+        console.log(" ");
         return err;
       });
   }
@@ -36,9 +43,13 @@ class Role {
       .promise()
       .query(sql, [roleId])
       .then(([rows, fields]) => {
+        console.table(rows);
+        console.log(" ");
         return rows;
       })
       .catch((err) => {
+        console.table(err);
+        console.log(" ");
         return err;
       });
   }
@@ -50,9 +61,13 @@ class Role {
       .promise()
       .query(sql, [title, salary, departmentId])
       .then(([rows, fields]) => {
+        console.table(rows);
+        console.log(" ");
         return rows;
       })
       .catch((err) => {
+        console.table(err);
+        console.log(" ");
         return err;
       });
   }

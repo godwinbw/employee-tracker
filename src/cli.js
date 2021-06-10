@@ -1,7 +1,11 @@
 const inquirer = require("inquirer");
 const Department = require("../model/Department");
+const Role = require("../model/Role");
+const Employee = require("../model/Employee");
 
 const department = new Department();
+const role = new Role();
+const employee = new Employee();
 
 // this function will ensure that a question has an answer provided by the user
 const validateInputEntry = function (input) {
@@ -11,6 +15,46 @@ const validateInputEntry = function (input) {
     console.log("This entry is required.  Try again.");
     return false;
   }
+};
+
+/// select manager
+const managerQuestions = [
+  {
+    type: "list",
+    message: "Which manager do you want to view employees for?",
+    name: "selection",
+  },
+];
+
+const promptManager = function () {
+  // get all managers
+  //console.log("ok, going to prompt for managers");
+  return employee
+    .getAllManagers()
+    .then((managers) => {
+      // populate the managerQuestions with the manager list from the database
+      managerQuestions[0].choices = managers;
+      //console.log("got managers");
+      //console.log(managers);
+      // now ask the user to chooose which manager they want
+      return inquirer
+        .prompt(managerQuestions)
+        .then((answer) => {
+          // get all employers for this manager
+          //console.log(answer);
+          return employee.getAllByManagerId(answer.selection).finally(() => {
+            return true;
+          });
+        })
+        .finally(() => {
+          return true;
+        });
+    })
+    .catch((err) => {
+      //console.log(err);
+      //console.log("...had an error getting all manangers");
+      return true;
+    });
 };
 
 // overall command line interface flow control
@@ -45,20 +89,30 @@ const promptOverall = function () {
     //console.log(answer);
     if (answer.selection === "1. View all departments") {
       return await department.getAll();
+    } else if (answer.selection === "2. View all roles") {
+      return await role.getAll();
+    } else if (answer.selection === "3. View all employees") {
+      return await employee.getAll();
+    } else if (answer.selection === "4. View all employees by manager") {
+      console.log("going to view all employees by manager");
+      return promptManager();
+    } else if (answer.selection === "5. View all employees by department") {
     } else if (answer.selection === "15. Exit") {
       return false;
     }
   });
 };
 
-const cli = async function () {
-  // start accepting user input until they exit
-  do {
-    keepGoing = await promptOverall();
-  } while (keepGoing);
+const cli = function () {
+  return new Promise(async function (resolve, reject) {
+    // start accepting user input until they exit
+    do {
+      keepGoing = await promptOverall();
+    } while (keepGoing);
 
-  // now exit
-  process.kill(process.pid, "SIGTERM");
+    // user wants to exit
+    resolve(true);
+  });
 };
 
 module.exports = cli;

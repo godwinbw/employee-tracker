@@ -13,11 +13,14 @@ class Department {
       .promise()
       .query(sql)
       .then(([rows, fields]) => {
+        console.log(" ");
         console.table(rows);
-        return true;
+        console.log(" ");
+        return rows;
       })
       .catch((err) => {
         console.table(err);
+        console.log(" ");
         return err;
       });
   }
@@ -32,9 +35,14 @@ class Department {
       .promise()
       .query(sql, [departmentId])
       .then(([rows, fields]) => {
+        console.log(" ");
+        console.table(rows);
+        console.log(" ");
         return rows;
       })
       .catch((err) => {
+        console.table(err);
+        console.log(" ");
         return err;
       });
   }
@@ -47,6 +55,9 @@ class Department {
       .promise()
       .query(sql, [departmentId])
       .then(([rows, fields]) => {
+        console.log(" ");
+        console.log("Deleted department id " + deparmentId);
+        console.log(" ");
         return rows;
       })
       .catch((err) => {
@@ -61,9 +72,14 @@ class Department {
       .promise()
       .query(sql, [departmentName])
       .then(([rows, fields]) => {
+        console.log(" ");
+        console.table(rows);
+        console.log(" ");
         return rows;
       })
       .catch((err) => {
+        console.table(err);
+        console.log(" ");
         return err;
       });
   }
