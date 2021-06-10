@@ -76,3 +76,7 @@ VALUES
     ('Horace','Walpole',18,13),
     ('Matthew','Lewis',18,13);
 
+SELECT * FROM department;
+SELECT * FROM role;
+SELECT * FROM employee;
+

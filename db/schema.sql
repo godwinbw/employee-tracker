@@ -1,3 +1,4 @@
+USE employee_tracker;
 
 DROP TABLE IF EXISTS employee;
 DROP TABLE IF EXISTS role;
@@ -5,7 +6,8 @@ DROP TABLE IF EXISTS department;
 
 CREATE TABLE department(
     id INTEGER AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(30) NOT NULL
+    name VARCHAR(30) NOT NULL,
+    CONSTRAINT uc_name UNIQUE (name)
 );
 
 CREATE TABLE role (
@@ -13,6 +15,7 @@ CREATE TABLE role (
     title VARCHAR(30) NOT NULL,
     salary DECIMAL(9,2),
     department_id INTEGER,
+    CONSTRAINT uc_title UNIQUE (title),
     CONSTRAINT fk_department FOREIGN KEY (department_id) REFERENCES department(id) ON DELETE SET NULL
 );
 
@@ -25,6 +28,51 @@ CREATE TABLE employee (
     CONSTRAINT fk_role FOREIGN KEY (role_id) REFERENCES role(id) ON DELETE SET NULL,
     CONSTRAINT fk_manager FOREIGN KEY (manager_id) REFERENCES employee(id) ON DELETE SET NULL
 );
+
+SHOW TABLES;
+
+DESCRIBE department;
+
+USE INFORMATION_SCHEMA;
+SELECT TABLE_NAME,
+       COLUMN_NAME,
+       CONSTRAINT_NAME,
+       REFERENCED_TABLE_NAME,
+       REFERENCED_COLUMN_NAME
+FROM KEY_COLUMN_USAGE
+WHERE TABLE_SCHEMA = "employee_tracker" 
+      AND TABLE_NAME = "department" 
+      AND REFERENCED_COLUMN_NAME IS NOT NULL;
+
+USE employee_tracker;
+DESCRIBE role;
+
+USE INFORMATION_SCHEMA;
+SELECT TABLE_NAME,
+       COLUMN_NAME,
+       CONSTRAINT_NAME,
+       REFERENCED_TABLE_NAME,
+       REFERENCED_COLUMN_NAME
+FROM KEY_COLUMN_USAGE
+WHERE TABLE_SCHEMA = "employee_tracker" 
+      AND TABLE_NAME = "role" 
+      AND REFERENCED_COLUMN_NAME IS NOT NULL;
+
+USE employee_tracker;
+DESCRIBE employee;
+
+USE INFORMATION_SCHEMA;
+SELECT TABLE_NAME,
+       COLUMN_NAME,
+       CONSTRAINT_NAME,
+       REFERENCED_TABLE_NAME,
+       REFERENCED_COLUMN_NAME
+FROM KEY_COLUMN_USAGE
+WHERE TABLE_SCHEMA = "employee_tracker" 
+      AND TABLE_NAME = "employee" 
+      AND REFERENCED_COLUMN_NAME IS NOT NULL;
+
+USE employee_tracker;
 
 
 

@@ -27,6 +27,35 @@ class Role {
         return err;
       });
   }
+
+  deleteById(roleId) {
+    const sql = `DELETE FROM role r
+                    WHERE r.id = ?`;
+
+    return this.db
+      .promise()
+      .query(sql, [roleId])
+      .then(([rows, fields]) => {
+        return rows;
+      })
+      .catch((err) => {
+        return err;
+      });
+  }
+
+  add(title, salary, departmentId) {
+    const sql = `INSERT INTO role (title, salary, department_id)
+                  VALUES (?, ?, ?)`;
+    return this.db
+      .promise()
+      .query(sql, [title, salary, departmentId])
+      .then(([rows, fields]) => {
+        return rows;
+      })
+      .catch((err) => {
+        return err;
+      });
+  }
 }
 
 module.exports = Role;
